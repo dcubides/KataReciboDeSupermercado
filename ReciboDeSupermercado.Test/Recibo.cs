@@ -63,14 +63,14 @@ public class Recibo
     
         _descuentoTotal += descuento;
     }
-
+    
+    public void AplicarPromocionPackPrecioFijo(string nombreProducto, int cantidad, decimal precioFijo)
+    {
+        AplicarPromocionPack(nombreProducto, cantidad, precioFijo);
+    }
+    
     private Producto? BuscarProducto(string nombreProducto)
     {
         return _productos.Find(p => p.Nombre == nombreProducto);
-    }
-
-    public void AplicarPromocionPrecioFijo()
-    {
-        throw new NotImplementedException();
     }
 }

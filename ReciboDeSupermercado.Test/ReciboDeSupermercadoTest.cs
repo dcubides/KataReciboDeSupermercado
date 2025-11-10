@@ -208,7 +208,7 @@ public class ReciboDeSupermercadoTest
         recibo.AgregarProducto("Tomates cherry", 0.50m);
         recibo.AgregarProducto("Tomates cherry", 0.50m);
         
-        recibo.AplicarPromocionPrecioFijo();
+        recibo.AplicarPromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m);
         
         recibo.Total.Should().Be(0.99m);
     }
