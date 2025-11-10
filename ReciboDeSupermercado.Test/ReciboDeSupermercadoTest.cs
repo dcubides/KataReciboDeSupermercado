@@ -85,12 +85,13 @@ public class ReciboDeSupermercadoTest
 
 public class Recibo
 {
-    public List<Producto> Productos { get; set; } = new List<Producto>();
+    private readonly List<Producto> _productos = new();
+    public IReadOnlyCollection<Producto> Productos => _productos.AsReadOnly();
     public decimal Total => Productos.Sum(p => p.Precio * p.Cantidad);
 
     public void AgregarProducto(string productoDescripcion, decimal precio)
     {
-        var productoExistente = Productos.Find(p => p.Nombre == productoDescripcion);
+        var productoExistente = _productos.Find(p => p.Nombre == productoDescripcion);
 
         if (productoExistente != null)
         {
@@ -104,7 +105,7 @@ public class Recibo
                 Precio = precio,
                 Cantidad = 1
             };
-            Productos.Add(nuevoProducto);
+            _productos.Add(nuevoProducto);
         }
     }
 }
