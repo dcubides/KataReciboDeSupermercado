@@ -169,5 +169,20 @@ public class ReciboDeSupermercadoTest
         
         recibo.Total.Should().Be(7.49m);
     }
+
+    [Fact]
+    public void Si_Compro7TubosDePastaDeDientesConPromocionPackPrecioFijo_Debe_AplicarEnElTotal1PackyDosSueltosConTotalDe1107()
+    {
+        var  recibo = new Recibo();
+
+        for (int i = 0; i < 7; i++)
+        {
+            recibo.AgregarProducto("Pasta de dientes", 1.79m);
+        }
+        
+        recibo.AplicarPromocionPack("Pasta de dientes", cantidad:5, precioFijo: 7.49m);
+        
+        recibo.Total.Should().Be(11.07m);
+    }
     
 }
