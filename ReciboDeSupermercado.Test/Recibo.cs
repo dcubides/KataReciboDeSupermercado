@@ -46,4 +46,9 @@ public class Recibo
         
         _descuentoTotal += descuento;
     }
+
+    public void AplicarPromocionPack(string nombreProducto, int cantidad, decimal precioFijo)
+    {
+        throw new NotImplementedException();
+    }
 }
