@@ -119,6 +119,9 @@ public class Recibo
         if (string.IsNullOrWhiteSpace(productoDescripcion))
             throw new ArgumentException(LA_DESCRIPCION_DEL_PRODUCTO_NO_PUEDE_ESTAR_VACIA);
 
+        if (precio <= 0)
+            throw new ArgumentException("El precio del producto debe ser mayor a cero.");
+
         var productoExistente = _productos.Find(p => p.Nombre == productoDescripcion);
 
         if (productoExistente != null)
