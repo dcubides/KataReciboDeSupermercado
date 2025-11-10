@@ -13,5 +13,5 @@ public class ReciboDeSupermercadoTest
 
 public class Recibo
 {
-    public decimal Total { get; set; } = 1;
+    public decimal Total { get; set; }
 }
