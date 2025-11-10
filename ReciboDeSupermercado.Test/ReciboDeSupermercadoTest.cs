@@ -81,6 +81,18 @@ public class ReciboDeSupermercadoTest
         
         recibo.Productos.Should().ContainSingle(p => p.Nombre == "Leche");
     }
+
+    [Fact]
+    public void Si_AgregoUnProductoSinDescripcion_Debe_ArrojarExcepcion()
+    {
+        var recibo = new Recibo();
+        
+        Action  resultado =  () => recibo.AgregarProducto("", 0.99m);
+        
+        resultado.Should().Throw<ArgumentException>()
+            .WithMessage("La descripcion del producto no puede estar vacía"); 
+        
+    }
 }
 
 public class Recibo
