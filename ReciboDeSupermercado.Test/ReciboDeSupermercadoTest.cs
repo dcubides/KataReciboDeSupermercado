@@ -92,6 +92,17 @@ public class ReciboDeSupermercadoTest
         resultado.Should().Throw<ArgumentException>()
             .WithMessage(Recibo.LA_DESCRIPCION_DEL_PRODUCTO_NO_PUEDE_ESTAR_VACIA);
     }
+
+    [Fact]
+    public void Si_AgregoUnProductoConValorMenoroIgualACero_Debe_ArrojarExcepcion()
+    {
+        var recibo = new Recibo();
+
+        Action resultado = () => recibo.AgregarProducto("Leche", 0m);
+
+        resultado.Should().Throw<ArgumentException>()
+            .WithMessage("El precio del producto debe ser mayor a cero.");
+    }
 }
 
 public class Recibo
