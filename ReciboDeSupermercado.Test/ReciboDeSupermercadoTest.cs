@@ -48,6 +48,19 @@ public class ReciboDeSupermercadoTest
         
         recibo.Total.Should().Be(0.99m * 2);
     }
+
+    [Fact]
+    public void CadaProductoDebeTenerUnSubtotal_IgualAlPrecioPorCantidad()
+    {
+        var producto = new Producto
+        {
+            Nombre = "Arroz",
+            Precio = 2.49m,
+            Cantidad = 3
+        };
+
+        producto.Subtotal.Should().Be(2.49m * 3);
+    }
     
 }
 
