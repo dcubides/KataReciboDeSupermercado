@@ -118,7 +118,7 @@ public class Recibo
     private readonly List<Producto> _productos = new();
     private decimal _descuentoTotal = 0m;
     public IReadOnlyCollection<Producto> Productos => _productos.AsReadOnly();
-    public decimal Total => Productos.Sum(p => p.Precio * p.Cantidad) - _descuentoTotal;
+    public decimal Total => Productos.Sum(p => p.Subtotal) - _descuentoTotal;
     
 
     public void AgregarProducto(string productoDescripcion, decimal precio)
@@ -141,8 +141,7 @@ public class Recibo
 
         if (producto != null)
         {
-            var subtotal = producto.Precio * producto.Cantidad;
-            _descuentoTotal += subtotal * (porcentaje / 100m);
+            _descuentoTotal += producto.Subtotal * (porcentaje / 100m);
         }
     }
 }

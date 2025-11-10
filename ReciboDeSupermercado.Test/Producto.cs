@@ -10,7 +10,7 @@ public class Producto
     public string Nombre { get; }
     public decimal Precio { get;  }
     public int Cantidad { get; private set; }
-    public object Subtotal => Cantidad * Precio;
+    public decimal Subtotal => Cantidad * Precio;
 
     public Producto(string nombre, decimal precio)
     {
