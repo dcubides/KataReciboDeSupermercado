@@ -187,8 +187,18 @@ public class Recibo
         }
     }
 
-    public void AplicarPromocionNxM(string cepilloDeDientes, int compra, int lleva)
+    public void AplicarPromocionNxM(string nombreProducto, int compra, int lleva)
     {
-        throw new NotImplementedException();
+        var producto = _productos.Find(p => p.Nombre == nombreProducto);
+        
+        if (producto == null) return;
+
+        int promocionesCompletas = producto.Cantidad / lleva;
+        
+        int unidadesGratis =  promocionesCompletas * (lleva - compra);
+
+        decimal descuento = unidadesGratis * producto.Precio;
+        
+        _descuentoTotal += descuento;
     }
 }
