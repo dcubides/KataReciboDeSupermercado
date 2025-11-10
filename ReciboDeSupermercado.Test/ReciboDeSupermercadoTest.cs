@@ -37,6 +37,17 @@ public class ReciboDeSupermercadoTest
         
         recibo.Productos.Should().ContainSingle(p => p.Nombre == "Cepillo de dientes" && p.Cantidad == 2);
     }
+
+    [Fact]
+    public void Si_AgregoElMismoProductoDosVecesElTotal_Debe_MultiplicarSuValorPorLaCantidadDelProducto()
+    {
+        var recibo = new Recibo();
+        
+        recibo.AgregarProducto("Cepillo de dientes", 0.99m);
+        recibo.AgregarProducto("Cepillo de dientes", 0.99m);
+        
+        recibo.Total.Should().Be(0.99m * 2);
+    }
     
 }
 
