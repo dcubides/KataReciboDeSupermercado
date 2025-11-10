@@ -71,6 +71,16 @@ public class ReciboDeSupermercadoTest
         recibo.Productos.Should().BeEmpty();
         recibo.Total.Should().Be(0);
     }
+
+    [Fact]
+    public void Si_AgregoUnProductoElRecibo_Debe_ContenerElproducto()
+    {
+        var recibo = new Recibo();
+        
+        recibo.AgregarProducto("Leche", 0.99m);
+        
+        recibo.Productos.Should().ContainSingle(p => p.Nombre == "Leche");
+    }
 }
 
 public class Recibo
