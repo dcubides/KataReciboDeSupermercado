@@ -12,41 +12,9 @@ public class ReciboDeSupermercadoTest
         
         Assert.Equal(0m, recibo.Total);
     }
-
-    [Fact]
-    public void Si_AdcicionoUnProductoAlReciboElTotal_Debe_MostrarSuPrecio()
-    {
-        var recibo = new Recibo();
-
-        recibo.AgregarProducto("Cepillo de dientes", 0.99m);
-
-        recibo.Total.Should().Be(0.99m);
-    }
-
-    [Fact]
-    public void Si_AdicionoDosProductosAlReciboElTotal_Debe_MostrarLaSumaDeAmbos()
-    {
-        var recibo = new Recibo();
-
-        recibo.AgregarProducto("Cepillo de dientes", 0.99m);
-        recibo.AgregarProducto("Arroz", 2.49m);
-
-        recibo.Total.Should().Be(0.99m + 2.49m);
-    }
     
-    [Fact]
-    public void Si_AdicionoTresProductosAlReciboElTotal_Debe_MostrarLaSumaDeTodos()
-    {
-        var recibo = new Recibo();
 
-        recibo.AgregarProducto("Cepillo de dientes", 0.99m);
-        recibo.AgregarProducto("Arroz", 2.49m);
-        recibo.AgregarProducto("Tubo para pasta de dientes", 1.79m);
-
-        recibo.Total.Should().Be(0.99m + 2.49m + 1.79m);
-    }
-
-    [Fact]
+    [Theory]
     [ClassData(typeof(DatosProductosTest))]
     public void Si_AgregarProductosAlReciboElTotal_Debe_SerLaSumaDeTodosLosPrecios(ProductosTestDatos productosTestDatos)
     {
@@ -74,6 +42,33 @@ public class DatosProductosTest : IEnumerable<object[]>
                     new() { Nombre = "Cepillo de dientes", Precio = 0.99m }
                 },
                 TotalEsperado = 0.99m
+            }
+        };
+
+        yield return new object[]
+        {
+            new ProductosTestDatos()
+            {
+                Productos = new List<Producto>
+                {
+                    new() { Nombre = "Cepillo de dientes", Precio = 0.99m },
+                    new () { Nombre = "Arroz", Precio = 2.49m }
+                },
+                TotalEsperado = 0.99m + 2.49m
+            },
+        };
+
+        yield return new object[]
+        {
+            new ProductosTestDatos()
+            {
+                Productos = new List<Producto>
+                {
+                    new() { Nombre = "Cepillo de dientes", Precio = 0.99m },
+                    new () { Nombre = "Arroz", Precio = 2.49m },
+                    new () {Nombre = "Tubo para pasta de dientes",  Precio = 1.79m }
+                },
+                TotalEsperado = 0.99m + 2.49m + 1.79m
             }
         };
     }
