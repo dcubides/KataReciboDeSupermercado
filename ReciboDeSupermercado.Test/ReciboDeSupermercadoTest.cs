@@ -76,9 +76,9 @@ public class ReciboDeSupermercadoTest
     public void Si_AgregoUnProductoElRecibo_Debe_ContenerElproducto()
     {
         var recibo = new Recibo();
-        
+
         recibo.AgregarProducto("Leche", 0.99m);
-        
+
         recibo.Productos.Should().ContainSingle(p => p.Nombre == "Leche");
     }
 
@@ -86,17 +86,19 @@ public class ReciboDeSupermercadoTest
     public void Si_AgregoUnProductoSinDescripcion_Debe_ArrojarExcepcion()
     {
         var recibo = new Recibo();
-        
-        Action  resultado =  () => recibo.AgregarProducto("", 0.99m);
-        
+
+        Action resultado = () => recibo.AgregarProducto("", 0.99m);
+
         resultado.Should().Throw<ArgumentException>()
-            .WithMessage("La descripcion del producto no puede estar vacía"); 
-        
+            .WithMessage(Recibo.LA_DESCRIPCION_DEL_PRODUCTO_NO_PUEDE_ESTAR_VACIA);
     }
 }
 
 public class Recibo
 {
+    public const string LA_DESCRIPCION_DEL_PRODUCTO_NO_PUEDE_ESTAR_VACIA =
+        "La descripcion del producto no puede estar vacía";
+
     private readonly List<Producto> _productos = new();
     public IReadOnlyCollection<Producto> Productos => _productos.AsReadOnly();
     public decimal Total => Productos.Sum(p => p.Precio * p.Cantidad);
@@ -104,8 +106,8 @@ public class Recibo
     public void AgregarProducto(string productoDescripcion, decimal precio)
     {
         if (string.IsNullOrWhiteSpace(productoDescripcion))
-            throw new ArgumentException("La descripcion del producto no puede estar vacía");
-        
+            throw new ArgumentException(LA_DESCRIPCION_DEL_PRODUCTO_NO_PUEDE_ESTAR_VACIA);
+
         var productoExistente = _productos.Find(p => p.Nombre == productoDescripcion);
 
         if (productoExistente != null)
