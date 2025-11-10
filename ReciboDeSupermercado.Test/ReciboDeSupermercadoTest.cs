@@ -25,15 +25,11 @@ public class ReciboDeSupermercadoTest
 
 public class Recibo
 {
-    public decimal Total { get; }
+    private decimal _total;
+    public decimal Total => _total;
 
-    public Recibo()
+    public void AgregarProducto(string productoDescripcion, decimal precio)
     {
-        Total = 0m;
-    }
-
-    public void AgregarProducto(string cepilloDeDientes, decimal @decimal)
-    {
-        throw new NotImplementedException();
+        _total += precio;
     }
 }
