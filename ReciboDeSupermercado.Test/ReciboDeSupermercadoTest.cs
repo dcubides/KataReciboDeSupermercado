@@ -53,9 +53,8 @@ public class ReciboDeSupermercadoTest
 
 public class Recibo
 {
-    private decimal _total;
-    public decimal Total => _total;
     public List<Producto> Productos { get; set; } = new List<Producto>();
+    public decimal Total => Productos.Sum(p => p.Precio * p.Cantidad);
 
     public void AgregarProducto(string productoDescripcion, decimal precio)
     {
@@ -64,7 +63,6 @@ public class Recibo
         if (productoExistente != null)
         {
             productoExistente.Cantidad++;
-            _total += precio;
         }
         else
         {
@@ -75,7 +73,6 @@ public class Recibo
                 Cantidad = 1
             };
             Productos.Add(nuevoProducto);
-            _total += precio;
         }
 
     }
