@@ -103,6 +103,9 @@ public class Recibo
 
     public void AgregarProducto(string productoDescripcion, decimal precio)
     {
+        if (string.IsNullOrWhiteSpace(productoDescripcion))
+            throw new ArgumentException("La descripcion del producto no puede estar vacía");
+        
         var productoExistente = _productos.Find(p => p.Nombre == productoDescripcion);
 
         if (productoExistente != null)
