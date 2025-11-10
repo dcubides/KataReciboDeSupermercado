@@ -125,6 +125,20 @@ public class ReciboDeSupermercadoTest
         
         recibo.Total.Should().Be(6.723m);
     }
+
+    [Fact]
+    public void Si_AgregoManzanasConDescuentoPorcentualDel20_Debe_AplicarElDescuentoAlTotal()
+    {
+        var recibo = new Recibo();
+        
+        recibo.AgregarProducto("Arroz", 2.49m);
+        recibo.AplicarPromocion("Arroz", 10m);
+        
+        recibo.AgregarProducto("Manzanas", 1.99m);
+        recibo.AplicarPromocion("Manzanas", 20m);
+        
+        recibo.Total.Should().Be(3.833m); 
+    }
 }
 
 public class Recibo
