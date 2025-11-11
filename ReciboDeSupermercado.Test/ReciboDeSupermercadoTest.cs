@@ -213,4 +213,30 @@ public class ReciboDeSupermercadoTest
         recibo.Total.Should().Be(0.99m);
     }
     
+    [Fact]
+    public void Si_Compro3CajasDeTomatesConPromocion2x099_Debe_Pagar149()
+    {
+        var recibo = new Recibo();
+
+        for (int i = 0; i < 3; i++)
+            recibo.AgregarProducto("Tomates cherry", 0.50m);
+    
+        recibo.AplicarPromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m);
+    
+        recibo.Total.Should().Be(1.49m);
+    }
+
+    [Fact]
+    public void Si_Compro4CajasDeTomatesConPromocion2x099_Debe_Pagar198()
+    {
+        var recibo = new Recibo();
+
+        for (int i = 0; i < 4; i++)
+            recibo.AgregarProducto("Tomates cherry", 0.50m);
+    
+        recibo.AplicarPromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m);
+    
+        recibo.Total.Should().Be(1.98m);
+    }
+    
 }
