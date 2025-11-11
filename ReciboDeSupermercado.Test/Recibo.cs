@@ -19,7 +19,7 @@ public class Recibo
     }
 
 
-    public void AgregarProducto(string productoDescripcion, decimal precio)
+    public void AgregarProducto(string productoDescripcion, decimal precio, UnidadMedida? unidad)
     {
         var productoExistente = _productos.Find(p => p.Nombre == productoDescripcion);
 

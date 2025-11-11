@@ -255,5 +255,26 @@ public class ReciboDeSupermercadoTest
         recibo.Should().Contain("TOTAL");
         recibo.Should().Contain("3.83");
     }
+
+    [Fact]
+    public void Si_GenerarRecibo_Debe_MostrarUnidadesDeMedida()
+    {
+        _recibo.AgregarProducto("Manzanas", 1.99m, UnidadMedida.Kilo);
+        _recibo.AgregarProducto("Arroz", 2.49m, UnidadMedida.Saco);
     
+        string recibo = _recibo.GenerarRecibo();
+    
+        recibo.Should().Contain("kg");
+        recibo.Should().Contain("saco");
+    }
+    
+}
+
+public enum UnidadMedida
+{
+    Unidad,
+    Kilo,
+    Saco,
+    Tubo,
+    Caja
 }
