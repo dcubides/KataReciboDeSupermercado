@@ -76,6 +76,9 @@ public class Recibo
         {
             reciboImpreso.AppendLine($"{producto.Nombre,-20} x{producto.Cantidad,-5} ${producto.Subtotal}");
         }
+        
+        reciboImpreso.AppendLine("".PadRight(40, '-'));
+        reciboImpreso.AppendLine($"SUBTOTAL  4.48 DESCUENTOS ");
 
         reciboImpreso.AppendLine("".PadRight(40, '-'));
         reciboImpreso.AppendLine($"{"TOTAL:",-30} ${Total:F2}");

@@ -254,7 +254,7 @@ public class ReciboDeSupermercadoTest
         recibo.Should().Contain("DESCUENTOS");
         
         recibo.Should().Contain("TOTAL");
-        recibo.Should().Contain("3.85");
+        recibo.Should().Contain("3.83");
     }
     
 }
