@@ -236,5 +236,25 @@ public class ReciboDeSupermercadoTest
         recibo.Should().Contain("TOTAL");
         recibo.Should().Contain("4.28");
     }
+
+    [Fact]
+    public void Si_GeneroReciboConDescuentos_Debe_MostrarDetalelDeLosDescuestos()
+    {
+        _recibo.AgregarProducto("Arroz", 2.49m);
+        _recibo.AgregarProducto("Manzanas", 1.99m);
+    
+        _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Arroz", 10m));
+        _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Manzanas", 20m));
+    
+        string recibo = _recibo.GenerarRecibo();
+    
+        recibo.Should().Contain("SUBTOTAL");
+        recibo.Should().Contain("4.48");
+    
+        recibo.Should().Contain("DESCUENTOS");
+        
+        recibo.Should().Contain("TOTAL");
+        recibo.Should().Contain("3.85");
+    }
     
 }
