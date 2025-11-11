@@ -1,4 +1,5 @@
 using System.Collections;
+using ReciboDeSupermercado.Core;
 
 namespace ReciboDeSupermercado.Test;
 

@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReciboDeSupermercado.Test", "ReciboDeSupermercado.Test\ReciboDeSupermercado.Test.csproj", "{AAE053E0-BBED-4C5F-B2B7-E9A3CAD2386C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReciboDeSupermercado.Core", "ReciboDeSupermercado.Core\ReciboDeSupermercado.Core.csproj", "{628B6FFA-FE03-4C9E-9455-DE483F1A294A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{AAE053E0-BBED-4C5F-B2B7-E9A3CAD2386C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAE053E0-BBED-4C5F-B2B7-E9A3CAD2386C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAE053E0-BBED-4C5F-B2B7-E9A3CAD2386C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{628B6FFA-FE03-4C9E-9455-DE483F1A294A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{628B6FFA-FE03-4C9E-9455-DE483F1A294A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{628B6FFA-FE03-4C9E-9455-DE483F1A294A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{628B6FFA-FE03-4C9E-9455-DE483F1A294A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

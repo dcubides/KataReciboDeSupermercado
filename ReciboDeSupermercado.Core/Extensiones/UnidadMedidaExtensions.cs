@@ -1,4 +1,4 @@
-namespace ReciboDeSupermercado.Test;
+namespace ReciboDeSupermercado.Core;
 
 public static class UnidadMedidaExtensions
 {

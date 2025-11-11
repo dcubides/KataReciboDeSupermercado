@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using ReciboDeSupermercado.Core;
 
 namespace ReciboDeSupermercado.Test;
 

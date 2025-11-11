@@ -1,3 +1,5 @@
+using ReciboDeSupermercado.Core;
+
 namespace ReciboDeSupermercado.Test;
 
 public class ProductosTestDatos

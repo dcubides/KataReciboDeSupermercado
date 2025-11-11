@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace ReciboDeSupermercado.Test;
+namespace ReciboDeSupermercado.Core;
 
 public class Recibo
 {

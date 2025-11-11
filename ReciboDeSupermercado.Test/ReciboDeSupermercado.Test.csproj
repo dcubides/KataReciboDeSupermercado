@@ -19,4 +19,8 @@
         <Using Include="Xunit"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ReciboDeSupermercado.Core\ReciboDeSupermercado.Core.csproj" />
+    </ItemGroup>
+
 </Project>
