@@ -97,7 +97,7 @@ public class ReciboDeSupermercadoTest
         var recibo = new Recibo();
         
         _recibo.AgregarProducto("Arroz", 2.49m);
-        _recibo.AplicarDescuentoPorcentual("Arroz", porcentaje:10m);
+        _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Arroz", porcentaje: 10m));
         
         _recibo.Total.Should().Be(2.241m);
     }
@@ -109,7 +109,7 @@ public class ReciboDeSupermercadoTest
         _recibo.AgregarProducto("Arroz", 2.49m);
         _recibo.AgregarProducto("Arroz", 2.49m);
         
-        _recibo.AplicarDescuentoPorcentual("Arroz", 10m);
+        _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Arroz", porcentaje: 10m));
         
         _recibo.Total.Should().Be(6.723m);
     }
@@ -118,10 +118,10 @@ public class ReciboDeSupermercadoTest
     public void Si_AgregoManzanasConDescuentoPorcentualDel20_Debe_AplicarElDescuentoAlTotal()
     {
         _recibo.AgregarProducto("Arroz", 2.49m);
-        _recibo.AplicarDescuentoPorcentual("Arroz", 10m);
+        _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Arroz", porcentaje: 10m));
         
         _recibo.AgregarProducto("Manzanas", 1.99m);
-        _recibo.AplicarDescuentoPorcentual("Manzanas", 20m);
+        _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Manzanas", 20m));
         
         _recibo.Total.Should().Be(3.833m); 
     }
@@ -133,7 +133,7 @@ public class ReciboDeSupermercadoTest
         _recibo.AgregarProducto("Cepillo de dientes", 0.99m);
         _recibo.AgregarProducto("Cepillo de dientes", 0.99m);
     
-        _recibo.PromocionLLeveXPagueX("Cepillo de dientes", compra: 2, lleva: 3);
+        _recibo.AplicarPromocion(new PromocionLLeveXPagueX("Cepillo de dientes", compra: 2, lleva: 3));
         
         _recibo.Total.Should().Be(1.98m);
     }
@@ -147,7 +147,7 @@ public class ReciboDeSupermercadoTest
         _recibo.AgregarProducto("Pasta de dientes", 1.79m);
         _recibo.AgregarProducto("Pasta de dientes", 1.79m);
         
-        _recibo.AplicarPromocionPackPrecioFijo("Pasta de dientes", cantidad: 5, precioFijo: 7.49m);
+        _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Pasta de dientes", cantidad: 5, precioFijo: 7.49m));
         
         _recibo.Total.Should().Be(7.49m);
     }
@@ -160,7 +160,7 @@ public class ReciboDeSupermercadoTest
             _recibo.AgregarProducto("Pasta de dientes", 1.79m);
         }
         
-        _recibo.AplicarPromocionPackPrecioFijo("Pasta de dientes", cantidad:5, precioFijo: 7.49m);
+        _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Pasta de dientes", cantidad:5, precioFijo: 7.49m));
         
         _recibo.Total.Should().Be(11.07m);
     }
@@ -172,8 +172,7 @@ public class ReciboDeSupermercadoTest
         {
             _recibo.AgregarProducto("Pasta de dientes", 1.79m);
         }
-    
-        _recibo.AplicarPromocionPackPrecioFijo("Pasta de dientes", cantidad: 5, precioFijo: 7.49m);
+        _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Pasta de dientes", cantidad: 5, precioFijo: 7.49m));
         
         _recibo.Total.Should().Be(14.98m);
     }
@@ -184,7 +183,7 @@ public class ReciboDeSupermercadoTest
         _recibo.AgregarProducto("Tomates cherry", 0.50m);
         _recibo.AgregarProducto("Tomates cherry", 0.50m);
         
-        _recibo.AplicarPromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m);
+        _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m));
         
         _recibo.Total.Should().Be(0.99m);
     }
@@ -195,7 +194,7 @@ public class ReciboDeSupermercadoTest
         for (int i = 0; i < 3; i++)
             _recibo.AgregarProducto("Tomates cherry", 0.50m);
     
-        _recibo.AplicarPromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m);
+        _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m));
     
         _recibo.Total.Should().Be(1.49m);
     }
@@ -205,8 +204,8 @@ public class ReciboDeSupermercadoTest
     {
         for (int i = 0; i < 4; i++)
             _recibo.AgregarProducto("Tomates cherry", 0.50m);
-    
-        _recibo.AplicarPromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m);
+        
+        _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m));
     
         _recibo.Total.Should().Be(1.98m);
     }
