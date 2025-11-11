@@ -107,7 +107,7 @@ public class ReciboDeSupermercadoTest
         var recibo = new Recibo();
         
         recibo.AgregarProducto("Arroz", 2.49m);
-        recibo.AplicarPromocion("Arroz", porcentaje:10m);
+        recibo.AplicarDescuentoPorcentual("Arroz", porcentaje:10m);
         
         recibo.Total.Should().Be(2.241m);
     }
@@ -121,7 +121,7 @@ public class ReciboDeSupermercadoTest
         recibo.AgregarProducto("Arroz", 2.49m);
         recibo.AgregarProducto("Arroz", 2.49m);
         
-        recibo.AplicarPromocion("Arroz", 10m);
+        recibo.AplicarDescuentoPorcentual("Arroz", 10m);
         
         recibo.Total.Should().Be(6.723m);
     }
@@ -132,10 +132,10 @@ public class ReciboDeSupermercadoTest
         var recibo = new Recibo();
         
         recibo.AgregarProducto("Arroz", 2.49m);
-        recibo.AplicarPromocion("Arroz", 10m);
+        recibo.AplicarDescuentoPorcentual("Arroz", 10m);
         
         recibo.AgregarProducto("Manzanas", 1.99m);
-        recibo.AplicarPromocion("Manzanas", 20m);
+        recibo.AplicarDescuentoPorcentual("Manzanas", 20m);
         
         recibo.Total.Should().Be(3.833m); 
     }
@@ -165,7 +165,7 @@ public class ReciboDeSupermercadoTest
         recibo.AgregarProducto("Pasta de dientes", 1.79m);
         recibo.AgregarProducto("Pasta de dientes", 1.79m);
         
-        recibo.AplicarPromocionPack("Pasta de dientes", cantidad: 5, precioFijo: 7.49m);
+        recibo.AplicarPromocionPackPrecioFijo("Pasta de dientes", cantidad: 5, precioFijo: 7.49m);
         
         recibo.Total.Should().Be(7.49m);
     }
@@ -180,7 +180,7 @@ public class ReciboDeSupermercadoTest
             recibo.AgregarProducto("Pasta de dientes", 1.79m);
         }
         
-        recibo.AplicarPromocionPack("Pasta de dientes", cantidad:5, precioFijo: 7.49m);
+        recibo.AplicarPromocionPackPrecioFijo("Pasta de dientes", cantidad:5, precioFijo: 7.49m);
         
         recibo.Total.Should().Be(11.07m);
     }
@@ -195,7 +195,7 @@ public class ReciboDeSupermercadoTest
             recibo.AgregarProducto("Pasta de dientes", 1.79m);
         }
     
-        recibo.AplicarPromocionPack("Pasta de dientes", cantidad: 5, precioFijo: 7.49m);
+        recibo.AplicarPromocionPackPrecioFijo("Pasta de dientes", cantidad: 5, precioFijo: 7.49m);
         
         recibo.Total.Should().Be(14.98m);
     }
