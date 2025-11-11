@@ -219,5 +219,22 @@ public class ReciboDeSupermercadoTest
         accion.Should().Throw<ArgumentException>()
             .WithMessage("La cantidad de llevar debe ser mayor a la de comprar"); 
     }
+
+    [Fact]
+    public void Si_GeneroReciboSinDescuentosYAgregoProductos_Debe_MostrarLosProductosYElTotal()
+    {
+        _recibo.AgregarProducto("Pasta de dientes", 1.79m);
+        _recibo.AgregarProducto("Arroz", 2.49m);
+       
+
+        string recibo = _recibo.GenerarRecibo();
+        
+        recibo.Should().Contain("Pasta de dientes");
+        recibo.Should().Contain("1.79");
+        recibo.Should().Contain("Arroz");
+        recibo.Should().Contain("2.49");
+        recibo.Should().Contain("TOTAL");
+        recibo.Should().Contain("4.28");
+    }
     
 }

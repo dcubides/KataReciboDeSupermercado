@@ -65,4 +65,9 @@ public class Recibo
 
         return total;
     }
+
+    public string GenerarRecibo()
+    {
+        throw new NotImplementedException();
+    }
 }
