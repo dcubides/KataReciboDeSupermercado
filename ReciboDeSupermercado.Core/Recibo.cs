@@ -12,6 +12,7 @@ public class Recibo
     private StringBuilder _reciboImpreso;
     private StringBuilder _impresionDescuentos;
     private StringBuilder _impresionProductos;
+    private readonly string _separador = "".PadRight(40, '-');
 
     public Recibo()
     {
@@ -52,7 +53,7 @@ public class Recibo
         ObtenerDetallesProductosYDescuentos();
 
         _reciboImpreso.Append(_impresionProductos);
-        _reciboImpreso.AppendLine("".PadRight(40, '-'));
+        _reciboImpreso.AppendLine(_separador);
         
         _reciboImpreso.AppendLine($"{"SUBTOTAL:",-30} ${_subtotal.ToString("F2", CultureInfo.InvariantCulture)}");
 
@@ -62,11 +63,11 @@ public class Recibo
             _reciboImpreso.AppendLine("DESCUENTOS APLICADOS:");
 
             _reciboImpreso.Append(_impresionDescuentos);
-            _reciboImpreso.AppendLine("".PadRight(40, '-'));
+            _reciboImpreso.AppendLine(_separador);
         }
         
 
-        _reciboImpreso.AppendLine("".PadRight(40, '-'));
+        _reciboImpreso.AppendLine(_separador);
         _reciboImpreso.AppendLine($"{"TOTAL:",-30} ${Total.ToString("F2", CultureInfo.InvariantCulture)}");
         
         return _reciboImpreso.ToString();
