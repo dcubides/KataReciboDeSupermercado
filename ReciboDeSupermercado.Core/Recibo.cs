@@ -63,7 +63,7 @@ public class Recibo
 
         foreach (var producto in _productos)
         {
-            var imprimirProducto = ObtenerImpresionParaRecibo(producto);
+            var imprimirProducto = producto.ObtenerImpresionParaRecibo();
 
             reciboImpreso.AppendLine(imprimirProducto);
             subtotal += producto.Subtotal;
@@ -97,10 +97,5 @@ public class Recibo
         return reciboImpreso.ToString();
     }
 
-    private static string ObtenerImpresionParaRecibo(Producto producto)
-    {
-        string unidadTexto = producto.Unidad.ObtenerDescripcion();
-        string imprimirProducto = $"{producto.Nombre,-20} x{producto.Cantidad} {unidadTexto,-5} ${producto.Subtotal.ToString("F2", CultureInfo.InvariantCulture)}";
-        return imprimirProducto;
-    }
+    
 }
