@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace ReciboDeSupermercado.Core;
 
 public class Producto
@@ -27,4 +29,10 @@ public class Producto
     }
     
     public void IncrementarCantidad() => Cantidad++;
+    
+    public string ObtenerImpresionParaRecibo()
+    {
+        string unidadTexto = Unidad.ObtenerDescripcion();
+        return $"{Nombre,-20} x{Cantidad} {unidadTexto,-5} ${Subtotal.ToString("F2", CultureInfo.InvariantCulture)}";
+    }
 }
