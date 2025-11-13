@@ -63,16 +63,19 @@ public class Recibo
 
         foreach (var producto in _productos)
         {
-            var imprimirProducto = producto.ObtenerImpresionParaRecibo();
-
-            reciboImpreso.AppendLine(imprimirProducto);
+            reciboImpreso.AppendLine(producto.ObtenerImpresionParaRecibo());
+            
             subtotal += producto.Subtotal;
             
             foreach (var promocion in _promociones)
             {
                 var descuentoAplicado = promocion.CalcularDescuento(producto);
                 if(descuentoAplicado>0)
-                    impresionDescuentos.AppendLine($"  {promocion.ObtenerDescripcion(),-28} -${descuentoAplicado.ToString("F2", CultureInfo.InvariantCulture)}");
+                {
+                    string impresionDescuentoAplicado = $"  {promocion.ObtenerDescripcion(),-28} -${descuentoAplicado.ToString("F2", CultureInfo.InvariantCulture)}";
+                    impresionDescuentos.AppendLine(impresionDescuentoAplicado);
+                }
+
                 descuentoTotal += descuentoAplicado;
             }
         }
