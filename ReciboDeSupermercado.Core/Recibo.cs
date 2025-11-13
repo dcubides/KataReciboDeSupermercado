@@ -63,8 +63,9 @@ public class Recibo
 
         foreach (var producto in _productos)
         {
-            string unidadTexto = producto.Unidad.ObtenerDescripcion();
-            reciboImpreso.AppendLine($"{producto.Nombre,-20} x{producto.Cantidad} {unidadTexto,-5} ${producto.Subtotal.ToString("F2", CultureInfo.InvariantCulture)}");
+            var imprimirProducto = ObtenerImpresionParaRecibo(producto);
+
+            reciboImpreso.AppendLine(imprimirProducto);
             subtotal += producto.Subtotal;
             
             foreach (var promocion in _promociones)
@@ -88,31 +89,18 @@ public class Recibo
             reciboImpreso.Append(impresionDescuentos);
             reciboImpreso.AppendLine("".PadRight(40, '-'));
         }
-
-        // if (descuentoTotal > 0)
-        // {
-        //     reciboImpreso.AppendLine();
-        //     reciboImpreso.AppendLine("DESCUENTOS APLICADOS:");
-        //
-        //     foreach (var promocion in _promociones)
-        //     {
-        //         foreach (var producto in _productos)
-        //         {
-        //             decimal descuento = promocion.CalcularDescuento(producto);
-        //             if (descuento > 0)
-        //             {
-        //                 reciboImpreso.AppendLine($"  {promocion.ObtenerDescripcion(),-28} -${descuento.ToString("F2", CultureInfo.InvariantCulture)}");
-        //             }
-        //         }
-        //     }
-        //
-        //     reciboImpreso.AppendLine("".PadRight(40, '-'));
-        // }
-
+        
 
         reciboImpreso.AppendLine("".PadRight(40, '-'));
         reciboImpreso.AppendLine($"{"TOTAL:",-30} ${Total.ToString("F2", CultureInfo.InvariantCulture)}");
         
         return reciboImpreso.ToString();
+    }
+
+    private static string ObtenerImpresionParaRecibo(Producto producto)
+    {
+        string unidadTexto = producto.Unidad.ObtenerDescripcion();
+        string imprimirProducto = $"{producto.Nombre,-20} x{producto.Cantidad} {unidadTexto,-5} ${producto.Subtotal.ToString("F2", CultureInfo.InvariantCulture)}";
+        return imprimirProducto;
     }
 }
