@@ -3,6 +3,8 @@ using System.Text;
 
 namespace ReciboDeSupermercado.Core;
 
+public record ProductoDto(string ProductoDescripcion, decimal Precio, UnidadMedida Unidad = UnidadMedida.Unidad);
+
 public class Recibo
 {
     private readonly List<Producto> _productos = new();
@@ -18,10 +20,13 @@ public class Recibo
             return subtotal - descuentos;
         }
     }
-
-
-    public void AgregarProducto(string productoDescripcion, decimal precio, UnidadMedida unidad = UnidadMedida.Unidad)
+    
+    
+    public void AgregarProducto(ProductoDto productoDto)
     {
+        var productoDescripcion = productoDto.ProductoDescripcion;
+        var precio = productoDto.Precio;
+        var unidad = productoDto.Unidad;
         var productoExistente = _productos.Find(p => p.Nombre == productoDescripcion);
 
         if (productoExistente != null)
