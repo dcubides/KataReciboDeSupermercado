@@ -87,18 +87,19 @@ public class Recibo
 
     private void ObtenerDetallesProductosYDescuentos()
     {
-        foreach (var producto in _productos)
+        _productos.ForEach(producto =>
         {
+            ConstruirDetalleProductoYSubtotal(producto);
             
-            _impresionProductos.AppendLine(producto.ObtenerImpresionParaRecibo());
-            
-            _subtotal += producto.Subtotal;
-            
-            foreach (var promocion in _promociones)
-            {
-                CalculoDescuentosPorProducto(promocion, producto);
-            }
-        }
+            _promociones.ForEach(promocion => CalculoDescuentosPorProducto(promocion, producto));
+        });
+    }
+
+    private void ConstruirDetalleProductoYSubtotal(Producto producto)
+    {
+        _impresionProductos.AppendLine(producto.ObtenerImpresionParaRecibo());
+
+        _subtotal += producto.Subtotal;
     }
 
     private void CalculoDescuentosPorProducto(Promocion promocion, Producto producto)
