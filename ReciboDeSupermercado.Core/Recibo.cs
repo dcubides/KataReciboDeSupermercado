@@ -11,6 +11,7 @@ public class Recibo
     private decimal _descuentoTotal;
     private StringBuilder _reciboImpreso;
     private StringBuilder _impresionDescuentos;
+    private StringBuilder _impresionProductos;
 
     public Recibo()
     {
@@ -18,6 +19,7 @@ public class Recibo
         _descuentoTotal = 0m;
         _reciboImpreso = new StringBuilder();
         _impresionDescuentos = new StringBuilder();
+        _impresionProductos = new StringBuilder();
     }
 
     public IReadOnlyCollection<Producto> Productos => _productos.AsReadOnly();
@@ -47,18 +49,9 @@ public class Recibo
 
     public string GenerarRecibo()
     {
-        foreach (var producto in _productos)
-        {
-            _reciboImpreso.AppendLine(producto.ObtenerImpresionParaRecibo());
-            
-            _subtotal += producto.Subtotal;
-            
-            foreach (var promocion in _promociones)
-            {
-                CalculoDescuentosPorProducto(promocion, producto);
-            }
-        }
+        ObtenerDetallesProductosYDescuentos();
 
+        _reciboImpreso.Append(_impresionProductos);
         _reciboImpreso.AppendLine("".PadRight(40, '-'));
         
         _reciboImpreso.AppendLine($"{"SUBTOTAL:",-30} ${_subtotal.ToString("F2", CultureInfo.InvariantCulture)}");
@@ -77,6 +70,22 @@ public class Recibo
         _reciboImpreso.AppendLine($"{"TOTAL:",-30} ${Total.ToString("F2", CultureInfo.InvariantCulture)}");
         
         return _reciboImpreso.ToString();
+    }
+
+    private void ObtenerDetallesProductosYDescuentos()
+    {
+        foreach (var producto in _productos)
+        {
+            
+            _impresionProductos.AppendLine(producto.ObtenerImpresionParaRecibo());
+            
+            _subtotal += producto.Subtotal;
+            
+            foreach (var promocion in _promociones)
+            {
+                CalculoDescuentosPorProducto(promocion, producto);
+            }
+        }
     }
 
     private void CalculoDescuentosPorProducto(Promocion promocion, Producto producto)
