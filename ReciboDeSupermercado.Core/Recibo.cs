@@ -72,7 +72,7 @@ public class Recibo
                 var descuentoAplicado = promocion.CalcularDescuento(producto);
                 if(descuentoAplicado>0)
                 {
-                    string impresionDescuentoAplicado = $"  {promocion.ObtenerDescripcion(),-28} -${descuentoAplicado.ToString("F2", CultureInfo.InvariantCulture)}";
+                    var impresionDescuentoAplicado = ObtenerImpresionParaRecibo(promocion, descuentoAplicado);
                     impresionDescuentos.AppendLine(impresionDescuentoAplicado);
                 }
 
@@ -100,5 +100,8 @@ public class Recibo
         return reciboImpreso.ToString();
     }
 
-    
+    private static string ObtenerImpresionParaRecibo(IPromocion promocion, decimal descuentoAplicado)
+    {
+        return $"  {promocion.ObtenerDescripcion(),-28} -${descuentoAplicado.ToString("F2", CultureInfo.InvariantCulture)}";
+    }
 }
