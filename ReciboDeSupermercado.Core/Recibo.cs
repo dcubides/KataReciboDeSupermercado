@@ -57,6 +57,7 @@ public class Recibo
     public string GenerarRecibo()
     {
         var reciboImpreso = new StringBuilder();
+        var impresionDescuentos = new StringBuilder();
         var subtotal = 0m;
         var descuentoTotal = 0m;
 
@@ -65,9 +66,13 @@ public class Recibo
             string unidadTexto = producto.Unidad.ObtenerDescripcion();
             reciboImpreso.AppendLine($"{producto.Nombre,-20} x{producto.Cantidad} {unidadTexto,-5} ${producto.Subtotal.ToString("F2", CultureInfo.InvariantCulture)}");
             subtotal += producto.Subtotal;
+            
             foreach (var promocion in _promociones)
             {
-                descuentoTotal += promocion.CalcularDescuento(producto);
+                var descuentoAplicado = promocion.CalcularDescuento(producto);
+                if(descuentoAplicado>0)
+                    impresionDescuentos.AppendLine($"  {promocion.ObtenerDescripcion(),-28} -${descuentoAplicado.ToString("F2", CultureInfo.InvariantCulture)}");
+                descuentoTotal += descuentoAplicado;
             }
         }
 
@@ -75,25 +80,34 @@ public class Recibo
         
         reciboImpreso.AppendLine($"{"SUBTOTAL:",-30} ${subtotal.ToString("F2", CultureInfo.InvariantCulture)}");
 
-        if (descuentoTotal > 0)
+        if (impresionDescuentos.ToString() != "")
         {
             reciboImpreso.AppendLine();
             reciboImpreso.AppendLine("DESCUENTOS APLICADOS:");
-        
-            foreach (var promocion in _promociones)
-            {
-                foreach (var producto in _productos)
-                {
-                    decimal descuento = promocion.CalcularDescuento(producto);
-                    if (descuento > 0)
-                    {
-                        reciboImpreso.AppendLine($"  {promocion.ObtenerDescripcion(),-28} -${descuento.ToString("F2", CultureInfo.InvariantCulture)}");
-                    }
-                }
-            }
-        
+
+            reciboImpreso.Append(impresionDescuentos);
             reciboImpreso.AppendLine("".PadRight(40, '-'));
         }
+
+        // if (descuentoTotal > 0)
+        // {
+        //     reciboImpreso.AppendLine();
+        //     reciboImpreso.AppendLine("DESCUENTOS APLICADOS:");
+        //
+        //     foreach (var promocion in _promociones)
+        //     {
+        //         foreach (var producto in _productos)
+        //         {
+        //             decimal descuento = promocion.CalcularDescuento(producto);
+        //             if (descuento > 0)
+        //             {
+        //                 reciboImpreso.AppendLine($"  {promocion.ObtenerDescripcion(),-28} -${descuento.ToString("F2", CultureInfo.InvariantCulture)}");
+        //             }
+        //         }
+        //     }
+        //
+        //     reciboImpreso.AppendLine("".PadRight(40, '-'));
+        // }
 
 
         reciboImpreso.AppendLine("".PadRight(40, '-'));
