@@ -57,16 +57,17 @@ public class Recibo
     public string GenerarRecibo()
     {
         var reciboImpreso = new StringBuilder();
+        var subtotal = 0m;
 
         foreach (var producto in _productos)
         {
             string unidadTexto = producto.Unidad.ObtenerDescripcion();
             reciboImpreso.AppendLine($"{producto.Nombre,-20} x{producto.Cantidad} {unidadTexto,-5} ${producto.Subtotal.ToString("F2", CultureInfo.InvariantCulture)}");
+            subtotal += producto.Subtotal;
         }
 
         reciboImpreso.AppendLine("".PadRight(40, '-'));
         
-        decimal subtotal = Productos.Sum(p => p.Subtotal);
         reciboImpreso.AppendLine($"{"SUBTOTAL:",-30} ${subtotal.ToString("F2", CultureInfo.InvariantCulture)}");
         
         decimal descuentoTotal = CalcularDescuentoTotal();
