@@ -11,6 +11,7 @@ public class ReciboDeSupermercadoTest
         _recibo = new Recibo();
     }
     
+    //TODO: Es posible sacar un recibo sin productos?
     [Fact]
     public void DeberiaCrearUnReciboVacioConTotalCero()
     {
@@ -18,6 +19,7 @@ public class ReciboDeSupermercadoTest
     }
 
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total 
     [Theory]
     [ClassData(typeof(DatosProductosTest))]
     public void Si_AgregarProductosAlReciboElTotal_Debe_SerLaSumaDeTodosLosPrecios(
@@ -25,30 +27,36 @@ public class ReciboDeSupermercadoTest
     {
         foreach (var producto in productosTestDatos.Productos)
         {
-            _recibo.AgregarProducto(producto.Nombre, producto.Precio);
+            _recibo.AgregarProducto(new Producto(producto.Nombre, producto.Precio));
         }
 
+        _recibo.GenerarRecibo();
         _recibo.Total.Should().Be(productosTestDatos.TotalEsperado);
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Productos, viola en encapsulamiento
     [Fact]
     public void Si_AgregoElMismoProductoDosVeces_Debe_ExistirEnElReciboConCantidadDos()
     {
-        _recibo.AgregarProducto("Cepillo de dientes", 0.99m);
-        _recibo.AgregarProducto("Cepillo de dientes", 0.99m);
+        _recibo.AgregarProducto(new Producto("Cepillo de dientes", 0.99m));
+        _recibo.AgregarProducto(new Producto("Cepillo de dientes", 0.99m));
 
         _recibo.Productos.Should().ContainSingle(p => p.Nombre == "Cepillo de dientes" && p.Cantidad == 2);
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total 
     [Fact]
     public void Si_AgregoElMismoProductoDosVecesElTotal_Debe_MultiplicarSuValorPorLaCantidadDelProducto()
     {
-        _recibo.AgregarProducto("Cepillo de dientes", 0.99m);
-        _recibo.AgregarProducto("Cepillo de dientes", 0.99m);
+        _recibo.AgregarProducto(new Producto("Cepillo de dientes", 0.99m));
+        _recibo.AgregarProducto(new Producto("Cepillo de dientes", 0.99m));
+        
+        _recibo.GenerarRecibo();
 
         _recibo.Total.Should().Be(0.99m * 2);
     }
 
+    //TODO: Esto se debería acertar contra el subtotal del recibo, no contra el subtotal interno del producto
     [Fact]
     public void CadaProductoDebeTenerUnSubtotal_IgualAlPrecioPorCantidad()
     {
@@ -59,6 +67,7 @@ public class ReciboDeSupermercadoTest
         producto.Subtotal.Should().Be(2.49m * 3);
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total 
     [Fact]
     public void Si_CreoUnRecibo_NoDebe_TenerProductosPeroDebeEstarListoParaAgregarlos()
     {
@@ -66,10 +75,11 @@ public class ReciboDeSupermercadoTest
         _recibo.Total.Should().Be(0);
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Productos, viola en encapsulamiento
     [Fact]
     public void Si_AgregoUnProductoElRecibo_Debe_ContenerElproducto()
     {
-        _recibo.AgregarProducto("Leche", 0.99m);
+        _recibo.AgregarProducto(new Producto("Leche", 0.99m));
 
         _recibo.Productos.Should().ContainSingle(p => p.Nombre == "Leche");
     }
@@ -77,7 +87,7 @@ public class ReciboDeSupermercadoTest
     [Fact]
     public void Si_AgregoUnProductoSinDescripcion_Debe_ArrojarExcepcion()
     {
-        Action resultado = () => _recibo.AgregarProducto("", 0.99m);
+        Action resultado = () => _recibo.AgregarProducto(new Producto("", 0.99m));
 
         resultado.Should().Throw<ArgumentException>()
             .WithMessage(Producto.LA_DESCRIPCION_DEL_PRODUCTO_NO_PUEDE_ESTAR_VACIA);
@@ -86,127 +96,159 @@ public class ReciboDeSupermercadoTest
     [Fact]
     public void Si_AgregoUnProductoConValorMenoroIgualACero_Debe_ArrojarExcepcion()
     {
-        Action resultado = () => _recibo.AgregarProducto("Leche", 0m);
+        Action resultado = () => _recibo.AgregarProducto(new Producto("Leche", 0m));
 
         resultado.Should().Throw<ArgumentException>()
             .WithMessage(Producto.EL_PRECIO_DEL_PRODUCTO_DEBE_SER_MAYOR_A_CERO);
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total
     [Fact]
     public void Si_AgregoUnProductoArrozConDescuentoPorcentualDel10_Debe_AplicarElDescuentoAlTotal()
     {
         var recibo = new Recibo();
         
-        _recibo.AgregarProducto("Arroz", 2.49m);
+        _recibo.AgregarProducto(new Producto("Arroz", 2.49m));
         _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Arroz", porcentaje: 10m));
+        
+        _recibo.GenerarRecibo();
         
         _recibo.Total.Should().Be(2.241m);
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total
     [Fact]
     public void Si_Agrego3SacosDeArrosConDescuentoPorcentualDel10_Debe_AplicarElDescuentoAlTotal()
     {
-        _recibo.AgregarProducto("Arroz", 2.49m);
-        _recibo.AgregarProducto("Arroz", 2.49m);
-        _recibo.AgregarProducto("Arroz", 2.49m);
+        _recibo.AgregarProducto(new Producto("Arroz", 2.49m));
+        _recibo.AgregarProducto(new Producto("Arroz", 2.49m));
+        _recibo.AgregarProducto(new Producto("Arroz", 2.49m));
         
         _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Arroz", porcentaje: 10m));
+        
+        _recibo.GenerarRecibo();
         
         _recibo.Total.Should().Be(6.723m);
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total
     [Fact]
     public void Si_AgregoManzanasConDescuentoPorcentualDel20_Debe_AplicarElDescuentoAlTotal()
     {
-        _recibo.AgregarProducto("Arroz", 2.49m);
+        _recibo.AgregarProducto(new Producto("Arroz", 2.49m));
         _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Arroz", porcentaje: 10m));
         
-        _recibo.AgregarProducto("Manzanas", 1.99m);
+        _recibo.AgregarProducto(new Producto("Manzanas", 1.99m));
         _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Manzanas", 20m));
+        
+        _recibo.GenerarRecibo();
         
         _recibo.Total.Should().Be(3.833m); 
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total
     [Fact]
     public void  Si_Agrego3CepillosDeDientesConPromocion2x1Gratis_Debe_PagarSolo2()
     {
-        _recibo.AgregarProducto("Cepillo de dientes", 0.99m);
-        _recibo.AgregarProducto("Cepillo de dientes", 0.99m);
-        _recibo.AgregarProducto("Cepillo de dientes", 0.99m);
+        _recibo.AgregarProducto(new Producto("Cepillo de dientes", 0.99m));
+        _recibo.AgregarProducto(new Producto("Cepillo de dientes", 0.99m));
+        _recibo.AgregarProducto(new Producto("Cepillo de dientes", 0.99m));
     
         _recibo.AplicarPromocion(new PromocionLLeveXPagueX("Cepillo de dientes", compra: 2, lleva: 3));
+        
+        _recibo.GenerarRecibo();
         
         _recibo.Total.Should().Be(1.98m);
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total
     [Fact]
     public void Si_Compro5TubosDePastaDeDientesConPromocionPackPrecioFijo_Debe_Pagar749()
     {
-        _recibo.AgregarProducto("Pasta de dientes", 1.79m);
-        _recibo.AgregarProducto("Pasta de dientes", 1.79m);
-        _recibo.AgregarProducto("Pasta de dientes", 1.79m);
-        _recibo.AgregarProducto("Pasta de dientes", 1.79m);
-        _recibo.AgregarProducto("Pasta de dientes", 1.79m);
+        _recibo.AgregarProducto(new Producto("Pasta de dientes", 1.79m));
+        _recibo.AgregarProducto(new Producto("Pasta de dientes", 1.79m));
+        _recibo.AgregarProducto(new Producto("Pasta de dientes", 1.79m));
+        _recibo.AgregarProducto(new Producto("Pasta de dientes", 1.79m));
+        _recibo.AgregarProducto(new Producto("Pasta de dientes", 1.79m));
         
         _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Pasta de dientes", cantidad: 5, precioFijo: 7.49m));
+        
+        _recibo.GenerarRecibo();
         
         _recibo.Total.Should().Be(7.49m);
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total
+    
     [Fact]
     public void Si_Compro7TubosDePastaDeDientesConPromocionPackPrecioFijo_Debe_AplicarEnElTotal1PackyDosSueltosConTotalDe1107()
     {
+        
         for (int i = 0; i < 7; i++)
         {
-            _recibo.AgregarProducto("Pasta de dientes", 1.79m);
+            _recibo.AgregarProducto(new Producto("Pasta de dientes", 1.79m));
         }
         
         _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Pasta de dientes", cantidad:5, precioFijo: 7.49m));
+
+        _recibo.GenerarRecibo();
         
         _recibo.Total.Should().Be(11.07m);
     }
     
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total
     [Fact]
     public void Si_Compro10TubosDePasta_ConPromocionDe5_Debe_Aplicar2PacksEnElDescuento()
     {
         for (int i = 0; i < 10; i++)
         {
-            _recibo.AgregarProducto("Pasta de dientes", 1.79m);
+            _recibo.AgregarProducto(new Producto("Pasta de dientes", 1.79m));
         }
         _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Pasta de dientes", cantidad: 5, precioFijo: 7.49m));
+        
+        _recibo.GenerarRecibo();
         
         _recibo.Total.Should().Be(14.98m);
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total
     [Fact]
     public void Si_Compro2CajasDeTomatesConPromocion2x099_Debe_Pagar099()
     {
-        _recibo.AgregarProducto("Tomates cherry", 0.50m);
-        _recibo.AgregarProducto("Tomates cherry", 0.50m);
+        _recibo.AgregarProducto(new Producto("Tomates cherry", 0.50m));
+        _recibo.AgregarProducto(new Producto("Tomates cherry", 0.50m));
         
         _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m));
+        
+        _recibo.GenerarRecibo();
         
         _recibo.Total.Should().Be(0.99m);
     }
     
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total
     [Fact]
     public void Si_Compro3CajasDeTomatesConPromocion2x099_Debe_Pagar149()
     {
         for (int i = 0; i < 3; i++)
-            _recibo.AgregarProducto("Tomates cherry", 0.50m);
+            _recibo.AgregarProducto(new Producto("Tomates cherry", 0.50m));
     
         _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m));
+        
+        _recibo.GenerarRecibo();
     
         _recibo.Total.Should().Be(1.49m);
     }
 
+    //TODO: Acertar contra el recibo para poder quitar la propiedad pública Total
     [Fact]
     public void Si_Compro4CajasDeTomatesConPromocion2x099_Debe_Pagar198()
     {
         for (int i = 0; i < 4; i++)
-            _recibo.AgregarProducto("Tomates cherry", 0.50m);
+            _recibo.AgregarProducto(new Producto("Tomates cherry", 0.50m));
         
         _recibo.AplicarPromocion(new PromocionPackPrecioFijo("Tomates cherry", cantidad: 2, precioFijo: 0.99m));
+        
+        _recibo.GenerarRecibo();
     
         _recibo.Total.Should().Be(1.98m);
     }
@@ -223,8 +265,8 @@ public class ReciboDeSupermercadoTest
     [Fact]
     public void Si_GeneroReciboSinDescuentosYAgregoProductos_Debe_MostrarLosProductosYElTotal()
     {
-        _recibo.AgregarProducto("Pasta de dientes", 1.79m);
-        _recibo.AgregarProducto("Arroz", 2.49m);
+        _recibo.AgregarProducto(new Producto("Pasta de dientes", 1.79m));
+        _recibo.AgregarProducto(new Producto("Arroz", 2.49m));
        
 
         string recibo = _recibo.GenerarRecibo();
@@ -240,8 +282,8 @@ public class ReciboDeSupermercadoTest
     [Fact]
     public void Si_GeneroReciboConDescuentos_Debe_MostrarDetalelDeLosDescuestos()
     {
-        _recibo.AgregarProducto("Arroz", 2.49m);
-        _recibo.AgregarProducto("Manzanas", 1.99m);
+        _recibo.AgregarProducto(new Producto("Arroz", 2.49m));
+        _recibo.AgregarProducto(new Producto("Manzanas", 1.99m));
     
         _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Arroz", 10m));
         _recibo.AplicarPromocion(new PromocionDescuentoPorcentual("Manzanas", 20m));
@@ -260,8 +302,8 @@ public class ReciboDeSupermercadoTest
     [Fact]
     public void Si_GenerarRecibo_Debe_MostrarUnidadesDeMedida()
     {
-        _recibo.AgregarProducto("Manzanas", 1.99m, UnidadMedida.Kilo);
-        _recibo.AgregarProducto("Arroz", 2.49m, UnidadMedida.Saco);
+        _recibo.AgregarProducto(new Producto("Manzanas", 1.99m, UnidadMedida.Kilo));
+        _recibo.AgregarProducto(new Producto("Arroz", 2.49m, UnidadMedida.Saco));
     
         string recibo = _recibo.GenerarRecibo();
     
